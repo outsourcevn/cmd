@@ -1,0 +1,85 @@
+﻿@model PagedList.IPagedList<Camuda.Models.log>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var locations = "{lat: 105.8194541, lng:21.0227431}";
+    string info = "";
+}
+<style>
+    #map-container {
+        padding: 6px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #ccc #ccc #999 #ccc;
+        -webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+        -moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+        box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+        width: 600px;
+      }
+      #map {
+        width: auto;
+        height: 400px;
+      }
+</style>
+<div>
+    <div class="col-md-12" style="background:#ffd800;">
+        <h1>Hệ thống quản lý định vị GPS Camuda Version 1.0</h1>
+    </div>
+    <div class="col-md-4" style="background:#00ff90;border-right:1px solid #808080;height:500px;border-bottom:1px solid #808080;border-left:1px solid #808080;">
+        <h2>Danh sách các thiết bị</h2>
+            @if (Model != null)
+            {
+                if (Model.Count > 0)
+                {
+                    <ul>
+                        <li><a href="/logs/index?devname=">Tất cả</li>
+                        @foreach (var item in Model)
+                        {
+                            locations += ",{lat: " + item.lat + ", lng: " + item.lon + "}";
+                            info = "Thiết bị:" + @item.dev + ", đã đi được " + item.mil + " dặm, tổng thời gian lái xe trong ngày " + item.drt+", cập nhật vào "+item.dat+" lúc "+item.tim;
+                            <li><a href="/logs/index?devname=@item.dev">&nbsp;@item.dev</li>
+                        }
+                    </ul>
+                }
+
+            }    
+                    
+    </div>
+    <div class="col-md-8" style="border-right:1px solid #808080;height:500px;border-bottom:1px solid #808080;">
+        <h2>Nhật ký lịch trình xe ô tô</h2>
+        <p>@info</p>
+        <div id="map"></div>
+    </div>
+</div>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: {lat: 21.0227431, lng: 105.8194541}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+            return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+            });
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    }
+    var locations = [@locations];
+</script>
+<script src="/Scripts/markerclusterer.js">
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi&callback=initMap" type="text/javascript"></script>

@@ -1,0 +1,241 @@
+﻿@model Camuda.Models.log
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>log</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dri)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dri)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.wng)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.wng)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.anl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.anl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pul)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.opt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.opt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dig)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dig)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vgp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vgp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dir)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dir)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vsr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vsr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mil)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mil)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.old)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.old)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hwv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hwv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fwv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fwv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.clt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.clt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.clg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.clg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sig)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sig)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hdo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hdo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.epw)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.epw)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.drt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.drt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cdt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cdt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
