@@ -1,0 +1,201 @@
+﻿@model PagedList.IPagedList<Camuda.Models.log>
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "all";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh Sách</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            dev
+        </th>
+        <th>
+            dri
+        </th>
+        <th>
+            tim
+        </th>
+        <th>
+            dat
+        </th>
+        <th>
+            lat
+        </th>
+        <th>
+            lon
+        </th>
+        <th>
+            wng
+        </th>
+        <th>
+            anl
+        </th>
+        <th>
+            pul
+        </th>
+        <th>
+            opt
+        </th>
+        <th>
+            dig
+        </th>
+        <th>
+            vgp
+        </th>
+        <th>
+            dir
+        </th>
+        <th>
+            vsr
+        </th>
+        <th>
+            mil
+        </th>
+        <th>
+            old
+        </th>
+        <th>
+            sat
+        </th>
+        <th>
+            hwv
+        </th>
+        <th>
+            fwv
+        </th>
+        <th>
+            clt
+        </th>
+        <th>
+            clg
+        </th>
+        <th>
+            sig
+        </th>
+        <th>
+            hdo
+        </th>
+        <th>
+            bat
+        </th>
+        <th>
+            epw
+        </th>
+        <th>
+            drt
+        </th>
+        <th>
+            cdt
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dev)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dri)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tim)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wng)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.anl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pul)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.opt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dig)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vgp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dir)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vsr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mil)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.old)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hwv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fwv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sig)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.epw)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.drt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cdt)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.id }) 
+        </td>
+    </tr>
+}
+
+</table>
+@if (Model != null && Model.PageCount >= 1)
+{
+    <div>
+        Trang:
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <a onclick="setpage(@i);" style="cursor:pointer;">@i,</a>
+        }
+    </div>
+}
+else
+{
+    <div>Không tìm thấy kết quả. Hãy thay đổi từ khóa phù hợp hơn.</div>
+}

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Camuda.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách user</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên
+        </th>
+        <th>
+            Mật khẩu
+        </th>
+        <th>
+            Từ thiết bị
+        </th>
+        <th>
+            Đến thiết bị
+        </th>
+        <th>
+            Từ số hiệu
+        </th>
+        <th>
+            Đến số hiệu
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.from_dev)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.to_dev)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.from_number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.to_number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -15,7 +15,37 @@ namespace Camuda.Controllers
         private carmudaEntities db = new carmudaEntities();
 
         // GET: logs
-        public ActionResult Index(int? pg,string devname)
+        public ActionResult Index(int? pg,string devname,int? id)
+        {
+            int pageSize = 25;
+            if (pg == null) pg = 1;
+            int pageNumber = (pg ?? 1);
+            ViewBag.pg = pg;
+            if (devname == null) devname = "";
+            var data = (from q in db.logs where q.dev.Contains(devname) select q);
+            if (id != null) data = data.Where(o => o.id == id);
+            data = data.OrderByDescending(o => o.id);
+            if (data == null)
+            {
+                return View(data);
+            }
+            try
+            {
+                var one = data.ToList();
+                ViewBag.lon = one[0].lon;
+                ViewBag.lat = one[0].lat;
+            }
+            catch
+            {
+                ViewBag.lon = 105.8194541;
+                ViewBag.lat = 21.0227431;
+            }
+            data = data.OrderByDescending(x => x.id);
+            ViewBag.devname = devname;
+            ViewBag.OnePage = data.ToPagedList(pageNumber, pageSize);
+            return View(data.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult all(int? pg, string devname)
         {
             int pageSize = 25;
             if (pg == null) pg = 1;
@@ -32,7 +62,6 @@ namespace Camuda.Controllers
             ViewBag.OnePage = data.ToPagedList(pageNumber, pageSize);
             return View(data.ToPagedList(pageNumber, pageSize));
         }
-
         // GET: logs/Details/5
         public ActionResult Details(long? id)
         {

@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var locations = "{lat: 105.8194541, lng:21.0227431}";
     string info = "";
+    var count = 0;
 }
 <style>
     #map-container {
@@ -23,6 +24,34 @@
         height: 400px;
       }
 </style>
+<script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
+<script src="/Scripts/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi" type="text/javascript"></script>
+<script src="/Scripts/jquery.geocomplete.js"></script>
+<script>
+    var markers = [];
+    var imageUrl = '/images/car.png' +
+          'chco=FFFFFF,008CFF,000000&ext=.png';
+    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
+    var styles = [[{
+        url: 'http://thuexetoancau.vn/images/car.png',
+        height: 35,
+        width: 35,
+        anchor: [16, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+    }]]
+    var image = {
+        url: 'http://carmuda.com/Content/images/car2.png',
+        // This marker is 20 pixels wide by 32 pixels high.
+        size: new google.maps.Size(64, 64),
+        // The origin for this image is (0, 0).
+        origin: new google.maps.Point(0, 0),
+        // The anchor for this image is the base of the flagpole at (0, 32).
+        anchor: new google.maps.Point(64, 64)
+    };
+    
+</script>
 <div>
     <div class="col-md-12" style="background:#ffd800;">
         <h1>Hệ thống quản lý định vị GPS Camuda Version 1.0</h1>
@@ -38,10 +67,32 @@
                         @foreach (var item in Model)
                         {
                             locations += ",{lat: " + item.lat + ", lng: " + item.lon + "}";
-                            info = "Thiết bị:" + @item.dev + ", đã đi được " + item.mil + " dặm, tổng thời gian lái xe trong ngày " + item.drt+", cập nhật vào "+item.dat+" lúc "+item.tim;
-                            <li><a href="/logs/index?devname=@item.dev">&nbsp;@item.dev</li>
+                            if (count==0) {info = "Thiết bị:" + @item.dev + ", đã đi được " + item.mil + " dặm, tổng thời gian lái xe trong ngày " + item.drt + ", cập nhật vào " + item.dat + " lúc " + item.tim+", đang ở <span id=locationnow>đang tìm...</span>";}
+                            count++;
+                            <li><a href="/logs/index?devname=@item.dev&id=@item.id">&nbsp;@item.dev</li>                            
                         }
                     </ul>
+                    
+                        <script>
+                            //locations += ",{lat: " + json_parsed.news[i].lat + ", lng: " + json_parsed.news[i].lon + "}";
+                            var latLng = new google.maps.LatLng(0, 0);
+                            var marker = new google.maps.Marker({ 'position': latLng, 'label': "test", title: 'Click to zoom', 'icon': image, 'draggable': true });
+                            //var phone = json_parsed.news[i].phone;
+                            //marker.addListener('click', function () {
+                            //    //alert("ok");
+                            //    openphone(phone);
+                            //});
+                            @foreach (var item2 in Model)
+                            {
+                                <text>
+                                    latLng = new google.maps.LatLng(@item2.lat, @item2.lon);
+                                    marker = new google.maps.Marker({ 'position': latLng, 'label': "@item2.dev", title: 'Click to zoom', 'icon': image, 'draggable': true });
+                                    markers.push(marker);
+                                </text>
+                            }
+                            //alert(markers.length);
+                        </script>
+                    
                 }
 
             }    
@@ -49,7 +100,7 @@
     </div>
     <div class="col-md-8" style="border-right:1px solid #808080;height:500px;border-bottom:1px solid #808080;">
         <h2>Nhật ký lịch trình xe ô tô</h2>
-        <p>@info</p>
+        <p>@Html.Raw(@info)</p>
         <div id="map"></div>
     </div>
 </div>
@@ -57,7 +108,7 @@
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
-            center: {lat: 21.0227431, lng: 105.8194541}
+            center: {lat: @ViewBag.lat, lng: @ViewBag.lon}
         });
 
         // Create an array of alphabetical characters used to label the markers.
@@ -67,19 +118,68 @@
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        var markers = locations.map(function(location, i) {
+        @*var markers = locations.map(function(location, i) {
             return new google.maps.Marker({
                 position: location,
-                label: labels[i % labels.length]
+                label: @ViewBag.devname
             });
-        });
+        });*@
 
         // Add a marker clusterer to manage the markers.
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     }
-    var locations = [@locations];
+    //var locations = [@locations];
+    var map22 = new google.maps.Map(document.getElementById('map'), {
+        zoom: 9,
+        center: { lat: @ViewBag.lat, lng: @ViewBag.lon },
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var markerCluster = new MarkerClusterer(map22, markers, { maxZoom: 12, gridSize: 70, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+    
 </script>
-<script src="/Scripts/markerclusterer.js">
+<script>
+    $.ajax({
+        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=@ViewBag.lat,@ViewBag.lon&key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY",
+        cache: false,
+        type: "GET",        
+        dataType: "json",
+        success: processJSON
+    }).done(function (html) {
+        processJSON(html);
+        //var news = '{"news":' + html + '}';
+        ////alert(html);
+        //var json_parsed = $.parseJSON(news);
+        //var preProvin = json_parsed.news[0].formatted_address;
+        //alert(preProvin);
+        //$("#car_type").html("");
+        //$("#car_type2").html("");
+        //for (var i = 0; i < json_parsed.news.length; i++) {
+        //    if (json_parsed.news[i]) {
+        //        var name = json_parsed.news[i];
+
+        //        //alert(name);
+        //        if (name == "4") {
+        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
+        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
+        //        } else  if (name == "5") {
+        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
+        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
+        //        } else{
+        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
+        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
+        //        }
+        //    }
+        //}
+
+    });
+    function processJSON(json) {
+        // Do stuff here
+        //console.log(json);
+        //alert("Postal Code:" + json.results[1].formatted_address);
+        $("#locationnow").html(json.results[1].formatted_address);
+    }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi&callback=initMap" type="text/javascript"></script>
+@*<script src="/Scripts/markerclusterer.js">
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi&callback=initMap" type="text/javascript"></script>*@
