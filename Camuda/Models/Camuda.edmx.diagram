@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e95ab28c02f747cdbc03ae4684057b7e" Name="Diagram1">
-        <EntityTypeShape EntityType="carmudaModel.log" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="carmudaModel.user" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="carmudaModel.log" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

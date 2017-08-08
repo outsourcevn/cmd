@@ -28,6 +28,8 @@
 <script src="/Scripts/markerclusterer.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi" type="text/javascript"></script>
 <script src="/Scripts/jquery.geocomplete.js"></script>
+<script src="/Scripts/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/Scripts/jquery-ui.css">
 <script>
     var markers = [];
     var imageUrl = '/images/car.png' +
@@ -56,6 +58,16 @@
     <div class="col-md-12" style="background:#ffd800;">
         <h1>Hệ thống quản lý định vị GPS Camuda Version 1.0</h1>
     </div>
+    <div class="panel-heading col-md-12">
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" id="devname" class="form-control" placeholder="Nhập tên thiết bị gps" value="@ViewBag.devname" style="width:360px;" onkeyup="searchCarNumber();" />
+            </div>
+            <div class="form-group">
+                <input type="button" value="Tìm Kiếm" class="btn btn-primary" onclick="search();" />
+            </div>
+        </div>
+    </div>
     <div class="col-md-4" style="background:#00ff90;border-right:1px solid #808080;height:500px;border-bottom:1px solid #808080;border-left:1px solid #808080;">
         <h2>Danh sách các thiết bị</h2>
             @if (Model != null)
@@ -69,7 +81,10 @@
                             locations += ",{lat: " + item.lat + ", lng: " + item.lon + "}";
                             if (count==0) {info = "Thiết bị:" + @item.dev + ", đã đi được " + item.mil + " dặm, tổng thời gian lái xe trong ngày " + item.drt + ", cập nhật vào " + item.dat + " lúc " + item.tim+", đang ở <span id=locationnow>đang tìm...</span>";}
                             count++;
-                            <li><a href="/logs/index?devname=@item.dev&id=@item.id">&nbsp;@item.dev</li>                            
+                            <li>
+                                <a href="/logs/index?devname=@item.dev&id=@item.id">&nbsp;@item.dev</a>
+                                @*<span id="location_@item.id"></span>*@
+                            </li>         
                         }
                     </ul>
                     
@@ -147,30 +162,6 @@
         success: processJSON
     }).done(function (html) {
         processJSON(html);
-        //var news = '{"news":' + html + '}';
-        ////alert(html);
-        //var json_parsed = $.parseJSON(news);
-        //var preProvin = json_parsed.news[0].formatted_address;
-        //alert(preProvin);
-        //$("#car_type").html("");
-        //$("#car_type2").html("");
-        //for (var i = 0; i < json_parsed.news.length; i++) {
-        //    if (json_parsed.news[i]) {
-        //        var name = json_parsed.news[i];
-
-        //        //alert(name);
-        //        if (name == "4") {
-        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
-        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(giá siêu rẻ, không cốp)</option>");
-        //        } else  if (name == "5") {
-        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
-        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ(có cốp)</option>");
-        //        } else{
-        //            $("#car_type").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
-        //            $("#car_type2").append("<option value='" + json_parsed.news[i] + "'>" + json_parsed.news[i] + " chỗ</option>");
-        //        }
-        //    }
-        //}
 
     });
     function processJSON(json) {
@@ -183,3 +174,20 @@
 @*<script src="/Scripts/markerclusterer.js">
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi&callback=initMap" type="text/javascript"></script>*@
+<script>
+    function search(){
+        var devname=document.getElementById("devname").value;
+        window.location.href="/logs/index?devname="+devname;
+    }
+    var url_searchCarNumber = '/logs/searchDev';
+    function searchCarNumber() {
+        $('#devname').autocomplete({
+            source: url_searchCarNumber + '?devname=' + $("#devname").val(),
+            select: function (event, ui) {
+                $(event.target).val(ui.item.value);
+                return false;
+            },
+            minLength: 1
+        });
+    }
+</script>

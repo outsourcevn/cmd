@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Camuda.Models;
 using PagedList;
+using Newtonsoft.Json;
 namespace Camuda.Controllers
 {
     public class logsController : Controller
@@ -44,6 +45,11 @@ namespace Camuda.Controllers
             ViewBag.devname = devname;
             ViewBag.OnePage = data.ToPagedList(pageNumber, pageSize);
             return View(data.ToPagedList(pageNumber, pageSize));
+        }
+        public string searchDev(string devname)
+        {
+            if (devname == null) devname = "";
+            return JsonConvert.SerializeObject(db.logs.Where(o => o.dev.Contains(devname)).Select(o=>o.dev).Take(10).ToList());
         }
         public ActionResult all(int? pg, string devname)
         {

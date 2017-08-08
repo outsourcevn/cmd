@@ -80,6 +80,8 @@ namespace Camuda.Controllers
                 lg.vgp = i.vgp;
                 lg.vsr = i.vsr;
                 lg.wng = i.wng;
+                lg.date_id = Config.datetimeid();
+                lg.date_time = DateTime.Now;
                 db.logs.Add(lg);
                 db.SaveChangesAsync();
                 return "1";

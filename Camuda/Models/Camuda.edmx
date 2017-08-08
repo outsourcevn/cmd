@@ -37,6 +37,8 @@
           <Property Name="epw" Type="float" />
           <Property Name="drt" Type="nvarchar" MaxLength="4" />
           <Property Name="cdt" Type="nvarchar" MaxLength="4" />
+          <Property Name="date_id" Type="int" />
+          <Property Name="date_time" Type="datetime" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -61,6 +63,25 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="carmudaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="carmudaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="users" EntityType="carmudaModel.user" />
+          <EntitySet Name="logs" EntityType="carmudaModel.log" />
+        </EntityContainer>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="from_dev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="to_dev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="from_number" Type="Int64" />
+          <Property Name="to_number" Type="Int64" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="log">
           <Key>
             <PropertyRef Name="id" />
@@ -93,25 +114,8 @@
           <Property Name="epw" Type="Double" />
           <Property Name="drt" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="cdt" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityContainer Name="carmudaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="logs" EntityType="Self.log" />
-          <EntitySet Name="users" EntityType="carmudaModel.user" />
-        </EntityContainer>
-        <EntityType Name="user">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="pass" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-          <Property Name="from_dev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="to_dev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="from_number" Type="Int64" />
-          <Property Name="to_number" Type="Int64" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date_id" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -119,40 +123,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="carmudaModelStoreContainer" CdmEntityContainer="carmudaEntities">
-          <EntitySetMapping Name="logs">
-            <EntityTypeMapping TypeName="carmudaModel.log">
-              <MappingFragment StoreEntitySet="logs">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="dev" ColumnName="dev" />
-                <ScalarProperty Name="dri" ColumnName="dri" />
-                <ScalarProperty Name="tim" ColumnName="tim" />
-                <ScalarProperty Name="dat" ColumnName="dat" />
-                <ScalarProperty Name="lat" ColumnName="lat" />
-                <ScalarProperty Name="lon" ColumnName="lon" />
-                <ScalarProperty Name="wng" ColumnName="wng" />
-                <ScalarProperty Name="anl" ColumnName="anl" />
-                <ScalarProperty Name="pul" ColumnName="pul" />
-                <ScalarProperty Name="opt" ColumnName="opt" />
-                <ScalarProperty Name="dig" ColumnName="dig" />
-                <ScalarProperty Name="vgp" ColumnName="vgp" />
-                <ScalarProperty Name="dir" ColumnName="dir" />
-                <ScalarProperty Name="vsr" ColumnName="vsr" />
-                <ScalarProperty Name="mil" ColumnName="mil" />
-                <ScalarProperty Name="old" ColumnName="old" />
-                <ScalarProperty Name="sat" ColumnName="sat" />
-                <ScalarProperty Name="hwv" ColumnName="hwv" />
-                <ScalarProperty Name="fwv" ColumnName="fwv" />
-                <ScalarProperty Name="clt" ColumnName="clt" />
-                <ScalarProperty Name="clg" ColumnName="clg" />
-                <ScalarProperty Name="sig" ColumnName="sig" />
-                <ScalarProperty Name="hdo" ColumnName="hdo" />
-                <ScalarProperty Name="bat" ColumnName="bat" />
-                <ScalarProperty Name="epw" ColumnName="epw" />
-                <ScalarProperty Name="drt" ColumnName="drt" />
-                <ScalarProperty Name="cdt" ColumnName="cdt" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="carmudaModel.user">
               <MappingFragment StoreEntitySet="user">
@@ -165,6 +135,42 @@
                 <ScalarProperty Name="from_dev" ColumnName="from_dev" />
                 <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logs">
+            <EntityTypeMapping TypeName="carmudaModel.log">
+              <MappingFragment StoreEntitySet="logs">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="date_id" ColumnName="date_id" />
+                <ScalarProperty Name="cdt" ColumnName="cdt" />
+                <ScalarProperty Name="drt" ColumnName="drt" />
+                <ScalarProperty Name="epw" ColumnName="epw" />
+                <ScalarProperty Name="bat" ColumnName="bat" />
+                <ScalarProperty Name="hdo" ColumnName="hdo" />
+                <ScalarProperty Name="sig" ColumnName="sig" />
+                <ScalarProperty Name="clg" ColumnName="clg" />
+                <ScalarProperty Name="clt" ColumnName="clt" />
+                <ScalarProperty Name="fwv" ColumnName="fwv" />
+                <ScalarProperty Name="hwv" ColumnName="hwv" />
+                <ScalarProperty Name="sat" ColumnName="sat" />
+                <ScalarProperty Name="old" ColumnName="old" />
+                <ScalarProperty Name="mil" ColumnName="mil" />
+                <ScalarProperty Name="vsr" ColumnName="vsr" />
+                <ScalarProperty Name="dir" ColumnName="dir" />
+                <ScalarProperty Name="vgp" ColumnName="vgp" />
+                <ScalarProperty Name="dig" ColumnName="dig" />
+                <ScalarProperty Name="opt" ColumnName="opt" />
+                <ScalarProperty Name="pul" ColumnName="pul" />
+                <ScalarProperty Name="anl" ColumnName="anl" />
+                <ScalarProperty Name="wng" ColumnName="wng" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="dat" ColumnName="dat" />
+                <ScalarProperty Name="tim" ColumnName="tim" />
+                <ScalarProperty Name="dri" ColumnName="dri" />
+                <ScalarProperty Name="dev" ColumnName="dev" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

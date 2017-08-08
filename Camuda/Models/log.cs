@@ -42,5 +42,7 @@ namespace Camuda.Models
         public Nullable<double> epw { get; set; }
         public string drt { get; set; }
         public string cdt { get; set; }
+        public Nullable<int> date_id { get; set; }
+        public Nullable<System.DateTime> date_time { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Camuda.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<log> logs { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<log> logs { get; set; }
     }
 }
